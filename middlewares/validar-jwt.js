@@ -2,12 +2,13 @@ const jwt = require('jsonwebtoken');
 
 const validarJWT = ( req, res, next ) => {
 
+    // Leer token
     const token = req.header('x-token');
 
-    if( !token ){
+    if ( !token ) {
         return res.status(401).json({
             ok: false,
-            msg: 'Não há nenhum token no pedido'
+            msg: 'No hay token en la petición'
         });
     }
 
@@ -15,19 +16,23 @@ const validarJWT = ( req, res, next ) => {
 
         const { uid } = jwt.verify( token, process.env.JWT_KEY );
         req.uid = uid;
-
-        next();
         
+        next();
+
     } catch (error) {
         return res.status(401).json({
             ok: false,
-            msg: 'Token não é válido'
-        });
+            msg: 'Token no válido'
+        })
     }
 
 
+
+
 }
+
 
 module.exports = {
     validarJWT
 }
+
